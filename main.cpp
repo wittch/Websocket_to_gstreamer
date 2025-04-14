@@ -4,7 +4,7 @@ static gboolean bus_call(GstBus* bus, GstMessage* msg, gpointer data) {
 
     switch (GST_MESSAGE_TYPE(msg)) {
     case GST_MESSAGE_EOS:
-        g_print("🎬 End of stream\n");
+        g_print(" End of stream\n");
         g_main_loop_quit(loop);
         break;
 
@@ -12,7 +12,7 @@ static gboolean bus_call(GstBus* bus, GstMessage* msg, gpointer data) {
         GError* err = nullptr;
         gchar* debug = nullptr;
         gst_message_parse_error(msg, &err, &debug);
-        g_printerr("❌ Error: %s\n", err->message);
+        g_printerr(" Error: %s\n", err->message);
         g_error_free(err);
         g_free(debug);
         g_main_loop_quit(loop);
@@ -29,7 +29,10 @@ int main(int argc, char* argv[]) {
 
     // GStreamer 파이프라인
     GstElement* pipeline = gst_parse_launch(
-        "appsrc name=mysrc is-live=true format=3 do-timestamp=true ! h264parse ! avdec_h264 ! videoconvert ! autovideosink",
+        //"appsrc name=mysrc is-live=true format=3 do-timestamp=true caps=video/quicktime ! qtdemux ! h264parse ! avdec_h264 ! videoconvert ! autovideosink",
+        //"appsrc name=mysrc is-live=true format=3 do-timestamp=true caps=video/quicktime ! filesink location=wsstest.mp4",
+        //"appsrc name=mysrc is-live=true format=3 do-timestamp=true ! filesink location=test.mp4",
+        "appsrc name=mysrc caps=video/quicktime format=3 is-live=true ! qtdemux ! decodebin ! autovideosink",
         nullptr);
 
     GstElement* appsrc = gst_bin_get_by_name(GST_BIN(pipeline), "mysrc");
@@ -45,8 +48,9 @@ int main(int argc, char* argv[]) {
     // 파이프라인 시작
     gst_element_set_state(pipeline, GST_STATE_PLAYING);
 
+
     // WebSocket 수신 시작 "wss://yourserver/stream"
-    H264WebSocketReceiver receiver(argv[2], appsrc);
+    H264WebSocketReceiver receiver(argv[1], appsrc);
     receiver.init();
 	receiver.auth();
     receiver.receive();

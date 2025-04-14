@@ -107,7 +107,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\gstreamer\1.0\msvc_x86_64\include\gstreamer-1.0;D:\gstreamer\1.0\msvc_x86_64\lib\glib-2.0\include;D:\gstreamer\1.0\msvc_x86_64\include\glib-2.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\gstreamer\1.0\msvc_x86_64\include\gstreamer-1.0;D:\gstreamer\1.0\msvc_x86_64\lib\glib-2.0\include;D:\gstreamer\1.0\msvc_x86_64\include\glib-2.0;D:\Project\websocket_utils;D:\Project\vcpkg\installed\x64-windows\include;D:\Project\vcpkg\installed\x64-windows\include\boost</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -115,6 +116,15 @@
       <AdditionalLibraryDirectories>D:\gstreamer\1.0\msvc_x86_64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>mbedtls.lib;mbedx509.lib;mbedcrypto.lib;crypt32.lib;bcrypt.lib;gstaudio-1.0.lib;libssl.lib;libcrypto.lib;gstapp-1.0.lib;gstreamer-1.0.lib;gobject-2.0.lib;glib-2.0.lib;gstrtsp-1.0.lib;gstrtspserver-1.0.lib;gstvideo-1.0.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;dxguid.lib;</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>set DLLSOURCE=C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Redist\MSVC\14.42.34433\x64\Microsoft.VC143.CRT
+set DLLTARGET=$(TargetDir)
+
+xcopy "%DLLSOURCE%\msvcp140.dll" "%DLLTARGET%" /Y
+xcopy "%DLLSOURCE%\vcruntime140.dll" "%DLLTARGET%" /Y
+xcopy "%DLLSOURCE%\concrt140.dll" "%DLLTARGET%" /Y
+xcopy "%DLLSOURCE%\msvcp140_codecvt_ids.dll" "%DLLTARGET%" /Y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -124,7 +134,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\gstreamer\1.0\msvc_x86_64\include\gstreamer-1.0;D:\gstreamer\1.0\msvc_x86_64\lib\glib-2.0\include;D:\gstreamer\1.0\msvc_x86_64\include\glib-2.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\gstreamer\1.0\msvc_x86_64\include\gstreamer-1.0;D:\gstreamer\1.0\msvc_x86_64\lib\glib-2.0\include;D:\gstreamer\1.0\msvc_x86_64\include\glib-2.0;D:\Project\websocket_utils;D:\Project\vcpkg\installed\x64-windows\include;D:\Project\vcpkg\installed\x64-windows\include\boost</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
